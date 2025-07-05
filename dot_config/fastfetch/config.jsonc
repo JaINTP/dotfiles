@@ -1,0 +1,121 @@
+// ~/.config/fastfetch/config.jsonc
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "type": "kitty",
+        "source": "/home/jaintp/Pictures/Assets/sukana_color_portrait_transparent.png",
+        "width": 30
+    },
+    "display": {
+        "separator": ": ",
+        "disableLinewrap": true,
+        "key": {
+            "width": 15
+        }
+    },
+    "modules": [
+        {
+            "type": "title",
+            "format": "{#33}┌─────────────────{#0}   {user-name-colored}{at-symbol-colored}{host-name-colored}   {#33}─────────────────┐"
+        },
+        {
+            "type": "custom",
+            "format": "{#33}├─────────────────{#0} System Information {#33}─────────────────┤"
+        },
+        {
+            "key": " {#33}┌─{#31} pc",
+            "type": "host",
+            "format": "{2}"
+        },
+        {
+            "key": " {#33}├─{#34} cpu",
+            "type": "cpu",
+            "showPeCoreCount": true,
+            "format": "{1:17}"
+        },
+        {
+            "key": " {#33}├─{#35}󰍛 gpu",
+            "type": "gpu",
+            "format": "{2:31}"
+        },
+        {
+            "key": " {#33}├─{#37}󰍛 memory",
+            "type": "memory",
+            "format": "{1>17} / {2>11} ({3>12})"
+        },
+        {
+            "key": " {#33}├─{#91} /",
+            "type": "disk",
+            "folders": "/",
+            "format": "{1>17} / {2>11} ({3>12})"
+        },
+        {
+            "key": " {#33}└─{#92} /boot",
+            "type": "disk",
+            "folders": "/boot",
+            "format": "{1>17} / {2>11} ({3>12})"
+        },
+        {
+            "type": "custom",
+            "format": "{#33}├──────────────────────{#0} Software {#33}──────────────────────┤"
+        },
+        {
+            "key": " {#33}┌─{#94}{icon} distro",
+            "type": "os"
+        },
+        {
+            "key": " {#33}├─{#95} kernel",
+            "type": "kernel"
+        },
+        {
+            "key": " {#33}└─{#97}󰏖 pacman",
+            "type": "packages",
+            "format": "{2}"
+        },
+        {
+            "type": "break"
+        },
+        {
+            "key": " {#33}┌─{#35} wm",
+            "type": "wm"
+        },
+        {
+            "key": " {#33}├─{#37} lm",
+            "type": "lm"
+        },
+        {
+            "key": " {#33}├─{#31} term",
+            "type": "terminal"
+        },
+        {
+            "type": "shell",
+            "key": " {#33}└─{#32} shell"
+        },
+        {
+            "type": "custom",
+            "format": "{#33}├─────────────────────{#0} Age/Uptime {#33}─────────────────────┤"
+        },
+        {
+            "key": " {#33}┌─{#35} OS Age",
+            "type": "command",
+            "text": "cat /tmp/os_age.txt"
+        },
+        {
+            "key": " {#32}└─{#31} uptime",
+            "type": "uptime"
+        },
+        {
+            "type": "custom",
+            "format": "{#33}├──────────────────────────────────────────────────────┤"
+        },
+        {
+            "key": " {#33}├─{#92} Colors",
+            "type": "colors",
+            "symbol": "circle"
+        },
+        {
+            "type": "custom",
+            "format": "{#33}└──────────────────────────────────────────────────────┘"
+        }
+    ]
+}
