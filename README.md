@@ -4,6 +4,14 @@ All my Linux configuration lives here and is managed with **chezmoi** – a dot-
 
 ---
 
+## Screenshots
+
+![Screenshot 1](https://raw.github.com/JaINTP/dotfiles/main/Screenshots/Screenshot_1.png)
+![Screenshot 2](https://raw.github.com/JaINTP/dotfiles/main/Screenshots/Screenshot_2.png)
+![Screenshot 3](https://raw.github.com/JaINTP/dotfiles/main/Screenshots/Screenshot_3.png)
+
+---
+
 ## Quick install
 
 ```bash
