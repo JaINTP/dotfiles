@@ -9,7 +9,7 @@ PartOf=graphical-session.target
 [Service]
 Type=exec
 ExecStart=/usr/bin/swww-daemon
-ExecStartPost=/usr/bin/swww img --transition-type any \
+ExecStartPost=/usr/bin/swww img --transition-type random \
   $HOME/.config/background
 Restart=on-failure
 
