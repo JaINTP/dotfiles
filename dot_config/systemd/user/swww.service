@@ -1,17 +1,14 @@
-# Starts the swww daemon when the graphical session comes up and
-# pre-loads a wallpaper so we don’t have to stare at a blank screen.
-
 [Unit]
-Description=Wallpaper daemon (swww)
+Description=Wallpaper daemon (swww) — user-session
 After=graphical-session.target
+Wants=graphical-session.target
 PartOf=graphical-session.target
 
 [Service]
-Type=exec
+Type=simple
 ExecStart=/usr/bin/swww-daemon
-ExecStartPost=/usr/bin/swww img --transition-type random \
-  $HOME/.config/background
+ExecStartPost=/usr/bin/bash -c '/usr/bin/swww img --transition-type random "$(find "$HOME/.config/background" -type f | shuf -n1)"'
 Restart=on-failure
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
