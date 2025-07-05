@@ -5,10 +5,9 @@ All my Linux configuration lives here and is managed with **chezmoi** – a dot-
 ---
 
 ## Screenshots
-
-![Screenshot 1](https://raw.github.com/JaINTP/dotfiles/main/Screenshots/Screenshot_1.png)
-![Screenshot 2](https://raw.github.com/JaINTP/dotfiles/main/Screenshots/Screenshot_2.png)
-![Screenshot 3](https://raw.github.com/JaINTP/dotfiles/main/Screenshots/Screenshot_3.png)
+![Screenshot 1](/../main/Screenshots/Screenshot_1.png?raw=true)
+![Screenshot 2](/../main/Screenshots/Screenshot_2.png?raw=true)
+![Screenshot 3](/../main/Screenshots/Screenshot_3.png?raw=true)
 
 ---
 
