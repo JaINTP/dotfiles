@@ -106,7 +106,7 @@ Preview safely with `chezmoi diff`.
 * [**Hyprland**](https://github.com/hyprwm/Hyprland/) + **[hypridle](https://github.com/hyprwm/hypridle) / [hyprlock](https://github.com/hyprwm/hyprlock) / [hyprpanel](https://hyprpanel.com/)** - slick Wayland desktop  
 * [**kitty**](https://sw.kovidgoyal.net/kitty), [**btop**](https://github.com/aristocratos/btop), [**Oh My Zsh**](https://ohmyz.sh/) - daily-driver tools  
 * [**Catppuccin**](https://catppuccin.com/) - cohesive theming
-* Gramblast Script** Author: [Misterio](https://github.com/misterio77)
+* **Gramblast Script** Author: [Misterio](https://github.com/misterio77)
 
 Happy dot-fiddling!  
 – Jai
