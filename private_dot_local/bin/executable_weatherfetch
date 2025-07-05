@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Function to get cached data or fetch new data
+fetch_data() {
+    local cache_file=$1
+    local expiry_time=$2
+    local fetch_command=$3
+
+    # Create cache directory and file if necessary
+    mkdir -p "$(dirname "$cache_file")"
+    touch "$cache_file"
+
+    # Check if cache is valid (less than expiry_time seconds old)
+    local last_modified=$(stat -c %Y "$cache_file")
+    local current_date=$(date +%s)
+    local time_diff=$((current_date - last_modified))
+
+    if [ $time_diff -lt $expiry_time ] && [ -s "$cache_file" ]; then
+        cat "$cache_file"
+        return
+    fi
+
+    # Fetch new data and update the cache
+    local new_data=$(eval "$fetch_command")
+    echo "$new_data" >"$cache_file"
+    echo "$new_data"
+}
+
+# Function to get weather and location details
+get_weather_and_location() {
+    local cache_file="$HOME/.cache/weather_cache.txt"
+    local expiry_time=3600 # 1 hour
+    local fetch_command='curl -s "https://wttr.in/?format=%l|%t|%C|%c"'
+    fetch_data "$cache_file" "$expiry_time" "$fetch_command"
+}
+
+# Main script logic
+weather_data=$(get_weather_and_location)
+
+# Split data into components using | as delimiter
+IFS='|' read -r location temp conditions icon <<< "$weather_data"
+
+# Ensure proper formatting: trim extra spaces
+formatted_location=$(echo "$location" | xargs)
+formatted_temp=$(echo "$temp" | xargs)
+formatted_conditions=$(echo "$conditions" | xargs)
+formatted_icon=$(echo "$icon" | xargs)
+
+# Command-line arguments
+case "$1" in
+    location)
+        echo "$formatted_location"
+        ;;
+    weather)
+        echo "$formatted_temp - $formatted_conditions $formatted_icon"
+        ;;
+    all)
+        echo "$formatted_location - $formatted_temp - $formatted_conditions $formatted_icon"
+        ;;
+    *)
+        echo "Usage: weather {location|weather|all}"
+        ;;
+esac

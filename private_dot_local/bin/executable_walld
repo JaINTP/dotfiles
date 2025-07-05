@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Ensure XDG_RUNTIME_DIR is set (safety for systemd user services)
+export XDG_RUNTIME_DIR="/run/user/1000"
+
+# Check if swww daemon is already running
+if ! swww query > /dev/null 2>&1; then
+    echo "Initializing swww daemon..."
+    swww-daemon &
+
+    # Wait for the socket to be ready
+    for i in $(seq 1 10); do
+        if swww query > /dev/null 2>&1; then
+            break
+        fi
+        echo "Waiting for swww daemon..."
+        sleep 1
+    done
+
+    # Final check
+    if ! swww query > /dev/null 2>&1; then
+        echo "swww daemon failed to start after 10 seconds." >&2
+        exit 1
+    fi
+else
+    echo "swww daemon is already running."
+fi
+
+# Set the wallpaper
+WALLPAPER_PATH="/home/jaintp/.config/background"
+swww img "$WALLPAPER_PATH"

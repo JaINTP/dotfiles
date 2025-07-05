@@ -1,0 +1,54 @@
+#!/bin/bash
+# Script to move the active window left or right of center based on argument
+
+# Get the direction argument (left or right)
+direction=$1
+
+# Ensure an argument is provided
+if [[ -z "$direction" ]]; then
+    echo "Usage: $0 [left|right]"
+    exit 1
+fi
+
+# Get the focused window's position and size based on focusHistoryID = 0
+window_info=$(hyprctl clients -j | jq '.[] | select(.focusHistoryID == 0)')
+if [[ -z "$window_info" ]]; then
+    echo "No focused window found!"
+    exit 1
+fi
+
+# Extract relevant information
+window_x=$(echo "$window_info" | jq -r '.at[0]')
+window_y=$(echo "$window_info" | jq -r '.at[1]')
+window_width=$(echo "$window_info" | jq -r '.size[0]')
+window_height=$(echo "$window_info" | jq -r '.size[1]')
+
+# Get screen dimensions
+screen_width=$(hyprctl monitors -j | jq -r '.[0].width')
+screen_height=$(hyprctl monitors -j | jq -r '.[0].height')
+
+# Calculate the screen center
+screen_center_x=$((screen_width / 2))
+screen_center_y=$((screen_height / 2))
+
+# Calculate the target center for the window
+offset=$((window_width / 2 + 20))  # Add the window's half-width and a fixed offset
+if [[ "$direction" == "left" ]]; then
+    target_center_x=$((screen_center_x - offset))
+elif [[ "$direction" == "right" ]]; then
+    target_center_x=$((screen_center_x + offset))
+else
+    echo "Invalid argument: $direction. Use 'left' or 'right'."
+    exit 1
+fi
+
+# Calculate the new top-left corner for the window
+new_x=$((target_center_x - window_width / 2))
+new_y=$((screen_center_y - window_height / 2))
+
+# Ensure the window stays within screen bounds
+new_x=$((new_x < 0 ? 0 : new_x))
+new_y=$((new_y < 0 ? 0 : new_y))
+
+# Move the window to the calculated position using moveactive
+hyprctl dispatch moveactive "exact $new_x $new_y"

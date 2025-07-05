@@ -1,0 +1,26 @@
+#!/bin/sh
+
+wallpaper_dir="$HOME/Pictures/Wallpapers"
+current_wallpaper="$HOME/.config/background"
+config_file="$HOME/.config/waypaper/config.ini"
+
+if [ -d "$wallpaper_dir" ]; then
+    wallpapers=("$wallpaper_dir"/*)
+
+    if [ ${#wallpapers[@]} -eq 0 ]; then
+        wallpapers=("$wallpaper_dir"/*)
+    fi
+
+    wallpaperIndex=$(( RANDOM % ${#wallpapers[@]} ))
+    selectedWallpaper="${wallpapers[$wallpaperIndex]}"
+
+    swww img $current_wallpaper --transition-type fade --transition-fps 60
+
+    cp "$selectedWallpaper" "$current_wallpaper"
+    echo "Wallpaper set to: $selectedWallpaper"
+    echo "Copied to: $current_wallpaper"
+
+    unset "wallpapers[$wallpaperIndex]"
+else
+    echo "Wallpaper directory does not exist."
+fi

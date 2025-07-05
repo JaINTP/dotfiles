@@ -1,0 +1,131 @@
+#!/bin/bash
+
+# Directory to cache album art
+CACHE_DIR="$HOME/.cache/playerctl"
+mkdir -p "$CACHE_DIR"
+
+# Function to fetch and cache album art
+fetch_album_art() {
+    local url
+    url=$(playerctl metadata mpris:artUrl 2>/dev/null)
+
+    if [ -n "$url" ]; then
+        if [[ "$url" == file://* ]]; then
+            # Handle local file paths
+            local filepath="${url#file://}"
+            if [ -f "$filepath" ]; then
+                echo "$filepath"
+            else
+                echo "Local file not found: $filepath"
+            fi
+        else
+            # Handle remote URLs
+            local mime_type
+            mime_type=$(curl -sI "$url" | grep -i "Content-Type" | awk '{print $2}' | tr -d '\r')
+
+            local extension
+            case "$mime_type" in
+                image/jpeg) extension="jpg" ;;
+                image/png)  extension="png" ;;
+                image/gif)  extension="gif" ;;
+                image/webp) extension="webp" ;;
+                *)          extension="unknown" ;;
+            esac
+
+            if [ "$extension" != "unknown" ]; then
+                local filename
+                filename=$(basename "$url" | cut -d'?' -f1)
+                local filepath="$CACHE_DIR/$filename.$extension"
+
+                curl -s "$url" -o "$filepath"
+                echo "$filepath"
+            else
+                echo "Unsupported image type: $mime_type"
+            fi
+        fi
+    else
+        echo "None"
+    fi
+}
+
+# Function to get the title
+get_title() {
+    playerctl metadata --format "{{ xesam:title }}" 2>/dev/null | cut -c1-25
+}
+
+# Function to convert length to hours, minutes, and seconds
+convert_length() {
+    local length
+    length=$(playerctl metadata --format "{{ mpris:length }}" 2>/dev/null)
+
+    if [ -n "$length" ]; then
+        local seconds=$((length / 1000000))
+        local hours=$((seconds / 3600))
+        local minutes=$(( (seconds % 3600) / 60 ))
+        local secs=$((seconds % 60))
+        
+        if [ "$hours" -gt 0 ]; then
+            printf "%02d:%02d:%02d\n" "$hours" "$minutes" "$secs"
+        else
+            printf "%02d:%02d\n" "$minutes" "$secs"
+        fi
+    else
+        echo ""
+    fi
+}
+
+# Function to get the playback status
+get_status() {
+    playerctl status
+}
+
+# Function to get the client in title case
+get_client() {
+    local client
+    client=$(playerctl metadata --format "{{ mpris:trackid }}" 2>/dev/null | grep -Eo "chromium|zen-beta|firefox|spotify")
+
+    case "$client" in
+        zen-beta|firefox)
+            local site_name
+            site_name=$(playerctl metadata --format "{{ xesam:url }}" 2>/dev/null | awk -F/ '{print $3}' | sed 's/^www\.//')
+            if [ -n "$site_name" ]; then
+                echo "Zen Browser - $site_name"
+            else
+                echo "Zen Browser"
+            fi
+            ;;
+        spotify)
+            echo "Spotify"
+            ;;
+        chromium)
+            echo "Chromium"
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
+}
+
+# Function to get the album
+get_album() {
+    playerctl metadata --format "{{ xesam:album }}" 2>/dev/null
+}
+
+# Function to get the artist
+get_artist() {
+    playerctl metadata --format "{{ xesam:artist }}" 2>/dev/null | cut -c1-30
+}
+
+# Main menu for user selection
+case $1 in
+    art) fetch_album_art ;;
+    title) get_title ;;
+    length) convert_length ;;
+    status) get_status ;;
+    client) get_client ;;
+    album) get_album ;;
+    artist) get_artist ;;
+    *) 
+        echo "Usage: $0 {art|title|length|status|client|album|artist}"
+        ;;
+esac

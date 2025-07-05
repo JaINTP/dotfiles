@@ -1,0 +1,19 @@
+#!/bin/bash
+
+[[ "$1" != "up" && "$1" != "down" ]] && { echo "Usage: $0 [up/down] [amount]"; exit 1; }
+
+amount=${2:-1}
+
+if ! [[ "$amount" =~ ^[0-9]+$ ]]; then
+    echo "Error: Amount must be a positive number."
+    exit 1
+fi
+
+if [[ "$1" == "up" ]]; then
+    brightnessctl set +"${amount}%" > /dev/null
+else
+    brightnessctl set "${amount}%-" > /dev/null
+fi
+
+percentage=$(( $(brightnessctl get) * 100 / $(brightnessctl max) ))
+echo "Brightness: ${percentage}%"
