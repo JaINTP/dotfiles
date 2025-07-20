@@ -1,0 +1,143 @@
+#!/usr/bin/env bash
+
+# Configurations
+ROFI_COMMAND="rofi -theme $HOME/.config/rofi/config/screenshot.rasi"
+ICON_NOTIFY="$HOME/.config/dunst/icons/collections.svg"
+ICON_COUNTDOWN="$HOME/.config/dunst/icons/timer.svg"
+BASE_DIR="$HOME/Pictures/Scrots"
+
+# Functions
+get_current_time() {
+    date +%d-%m-%Y_%I-%M-%S
+}
+
+get_today_folder() {
+    date +%d-%m-%Y
+}
+
+create_folder_if_needed() {
+    local folder="$1"
+    if [[ ! -d "$folder" ]]; then
+        mkdir -p "$folder"
+        send_notification "low" "Created folder: $folder" "$ICON_NOTIFY"
+    else
+        send_notification "low" "Folder already exists: $folder" "$ICON_NOTIFY"
+    fi
+}
+
+send_notification() {
+    local urgency="$1"
+    local message="$2"
+    local icon="$3"
+    dunstify -u "$urgency" --replace=699 -i "$icon" "$message"
+}
+
+copy_to_clipboard() {
+    local file="$1"
+    if [[ -f "$file" ]]; then
+        wl-copy < "$file"
+        send_notification "low" "Screenshot copied to clipboard." "$ICON_NOTIFY"
+    else
+        send_notification "critical" "Screenshot file not found: $file" "$ICON_NOTIFY"
+    fi
+}
+
+countdown_timer() {
+    local seconds="$1"
+    for sec in $(seq "$seconds" -1 1); do
+        send_notification "low" "Taking shot in: $sec seconds" "$ICON_COUNTDOWN"
+        sleep 1
+    done
+}
+
+take_screenshot() {
+    local mode="$1"
+    local file="$2"
+
+    case "$mode" in
+        screen)
+            grimblast save screen "$file" && send_notification "low" "Screenshot taken: Entire Screen" "$ICON_NOTIFY"
+            ;;
+        area)
+            grimblast save area "$file" && send_notification "low" "Screenshot taken: Selected Area" "$ICON_NOTIFY"
+            ;;
+        window)
+            grimblast save active "$file" && send_notification "low" "Screenshot taken: Active Window" "$ICON_NOTIFY"
+            ;;
+        *)
+            send_notification "critical" "Unknown screenshot mode: $mode" "$ICON_NOTIFY"
+            exit 1
+            ;;
+    esac
+}
+
+handle_screenshot() {
+    local mode="$1"
+    local delay="$2"
+    local target_folder="$3"
+    local file="$target_folder/Screenshot_$(get_current_time).png"
+
+    if [[ "$delay" -gt 0 ]]; then
+        countdown_timer "$delay"
+    else
+        countdown_timer 1
+    fi
+
+    take_screenshot "$mode" "$file"
+
+    if [[ -f "$file" ]]; then
+        copy_to_clipboard "$file"
+        send_notification "low" "Screenshot saved at $file" "$ICON_NOTIFY"
+    else
+        send_notification "critical" "Failed to save screenshot: $file" "$ICON_NOTIFY"
+    fi
+}
+
+# Main Program
+main() {
+    send_notification "low" "Launching screenshot tool..." "$ICON_NOTIFY"
+
+    # Prepare the directory
+    local today_folder="$BASE_DIR/$(get_today_folder)"
+    create_folder_if_needed "$today_folder"
+
+    # Define the options for Rofi
+    local option_capture_screen="Capture Entire Screen"
+    local option_capture_area="Capture Selected Area"
+    local option_capture_window="Capture Active Window"
+    local option_delay_3s="Capture Screen in 3s"
+    local option_delay_10s="Capture Screen in 10s"
+
+    local options="$option_capture_screen\n$option_capture_area\n$option_capture_window\n$option_delay_3s\n$option_delay_10s"
+
+    # Show the Rofi menu
+    local chosen=$(echo -e "$options" | $ROFI_COMMAND -p "Screenshot Options" -dmenu -selected-row 0)
+
+    # Handle the user's selection
+    case "$chosen" in
+        "$option_capture_screen")
+            handle_screenshot "screen" 0 "$today_folder"
+            ;;
+        "$option_capture_area")
+            handle_screenshot "area" 0 "$today_folder"
+            ;;
+        "$option_capture_window")
+            handle_screenshot "window" 0 "$today_folder"
+            ;;
+        "$option_delay_3s")
+            handle_screenshot "screen" 3 "$today_folder"
+            ;;
+        "$option_delay_10s")
+            handle_screenshot "screen" 10 "$today_folder"
+            ;;
+        *)
+            send_notification "critical" "No valid option selected." "$ICON_NOTIFY"
+            exit 0
+            ;;
+    esac
+
+    send_notification "low" "Screenshot operation complete." "$ICON_NOTIFY"
+}
+
+# Run the main program
+main
