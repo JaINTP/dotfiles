@@ -1,0 +1,33 @@
+{{- if eq .chezmoi.hostname "galdheim" }}
+env = LIBVA_DRIVER_NAME,nvidia
+env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+env = NVD_BACKEND,direct
+{{- end }}
+env = HYPRCURSOR_THEME,HyprCatppuccinMochaDark
+env = HYPRCURSOR_SIZE,20
+env = XCURSOR_THEME,HyprCatppuccinMochaDark
+env = XCURSOR_SIZE,20
+env = QT_QPA_PLATFORMTHEME,qt6ct
+env = GTK_THEME,{{ .gtk_theme | quote }}
+
+$BAR           = ~/.config/hyprpanel/executable_hyprpanel.sh
+$SPOTIFY       = spotify
+$DISCORD       = vesktop
+$ZENTWITCH     = env XDG_CURRENT_DESKTOP=zen-twitch zen-browser -P twitch
+
+# Autostart programs
+exec-once = $BAR
+exec-once = $SPOTIFY
+exec-once = $DISCORD
+exec-once = pkill dunst
+exec-once = udiskie &
+exec-once = hypridle &
+exec-once = ianny &
+exec      = $AUTH_AGENT
+exec-once = easyeffects -gapplication-service
+exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec-once = dbus-update-activation-environment --systemd SSH_AUTH_SOCK
+exec-once = gnome-keyring-daemon --start --components=secrets,ssh
+
+# Launch terminal(s)
+exec-once = [workspace 2 silent] $LAUNCH_KITTY
