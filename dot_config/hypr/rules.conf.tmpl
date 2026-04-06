@@ -1,9 +1,17 @@
 # Workspace
+{{- if eq .chezmoi.hostname "galdheim" }}
 workspace = 1, monitor:DP-5,        persistent:true
 workspace = 2, monitor:DP-5,        persistent:true
 workspace = 3, monitor:DP-5,        persistent:true
 workspace = 4, monitor:HDMI-A-5,    persistent:true
 workspace = 5, monitor:HDMI-A-5,    persistent:true
+{{- else if eq .chezmoi.hostname "ArchBox" }}
+workspace = 1, monitor:eDP-1,        persistent:true
+workspace = 2, monitor:eDP-1,        persistent:true
+workspace = 3, monitor:eDP-1,        persistent:true
+workspace = 4, monitor:eDP-1,        persistent:true
+workspace = 5, monitor:eDP-1,        persistent:true
+{{- end }}
 workspace = special:scratchpad
 workspace = special:media
 
@@ -24,7 +32,11 @@ windowrule = match:class ^(kitty)$, size 56% 65%
 windowrule = match:class ^kittyfetch,           workspace 1
 windowrule = match:class ^kittyfetch,           float 0
 windowrule = match:class ^kittyfetch,           size 732 452
+{{- if eq .chezmoi.hostname "galdheim" }}
 windowrule = match:class ^kittyfetch,           monitor DP-5
+{{- else if eq .chezmoi.hostname "ArchBox" }}
+windowrule = match:class ^kittyfetch,           monitor eDP-1
+{{- end }}
 
 # Ghostty
 windowrule = match:class ^com.ghostty.jaintp,   float 1

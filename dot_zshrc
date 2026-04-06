@@ -1,0 +1,110 @@
+# =============================================================================
+# Environment & Locale
+# =============================================================================
+export LANG=en_AU.UTF-8
+export LC_ALL=en_AU.UTF-8
+export TERM=xterm-256color
+export GTK_THEME="catppuccin-mocha-mauve-standard+default"
+
+# =============================================================================
+# Path Configuration
+# =============================================================================
+export PATH="$HOME/.local/bin:$HOME/bin:$HOME/go/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# SwiftEnv
+export SWIFTENV_ROOT="$HOME/.swiftenv"
+export PATH="$SWIFTENV_ROOT/bin:$PATH"
+eval "$(swiftenv init -)"
+
+# =============================================================================
+# Oh My Zsh
+# =============================================================================
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="jaintp"
+plugins=(git)
+source $ZSH/oh-my-zsh.sh
+
+# =============================================================================
+# Modern CLI Tools - Aliases (Overrides)
+# =============================================================================
+alias ls="eza --icons"
+alias cat="bat"
+alias grep="rg"
+alias find="fd"
+alias cd="z"
+alias help="tldr"
+alias git="lazygit"
+alias docker="lazydocker"
+alias btw="fastfetch"
+
+# Navigation shortcuts
+alias ..="cd .."
+alias rpi='ssh 192.168.0.199'
+
+# =============================================================================
+# Interactive Tools - Functions & Workflow Aliases
+# =============================================================================
+
+# Fuzzy file browser with preview
+alias v='fd --type f | fzf --preview "bat --color=always {}"'
+
+# Fuzzy kill process
+killf() {
+    ps -ef | fzf --header "Select process to kill" | awk "{print \$2}" | xargs kill -9
+}
+
+# Unblob firmware extractor
+unblob() {
+    local file_name=$(basename "$1")
+    mkdir -p "$(pwd)/unblob_output"
+    docker run --rm \
+        -u "$(id -u):$(id -g)" \
+        -v "$(pwd)":/data/input \
+        -v "$(pwd)/unblob_output":/data/output \
+        ghcr.io/onekey-sec/unblob:latest \
+        --verbose \
+        "/data/input/${file_name}"
+}
+
+# =============================================================================
+# Tool Initializations
+# =============================================================================
+
+# Zoxide (better cd)
+eval "$(zoxide init zsh)"
+
+# The Fuck (corrects previous commands)
+eval "$(thefuck --alias)"
+
+# =============================================================================
+# SSH Agent
+# =============================================================================
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
+if ! pgrep -u "$USER" ssh-agent >/dev/null; then
+  eval "$(ssh-agent -S)"
+fi
+
+# =============================================================================
+# Completion & Keybindings
+# =============================================================================
+
+# fzf keybindings (CTRL-R: history, CTRL-T: files, ALT-C: dirs)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# zsh completion
+fpath+=~/.zfunc
+autoload -Uz compinit
+compinit
+
+# Enhanced completion style
+zstyle ':completion:*' menu select
+
+# OpenClaw Completion (uncomment when available)
+# source <(openclaw completion --shell zsh)

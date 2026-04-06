@@ -1,13 +1,4 @@
-{{- $email := "REDACTED" -}}
-{{- $name := "jaintp" -}}
-{{- $gtk_theme := "catppuccin-mocha-mauve-standard+default" -}}
-
 [data]
-    email = {{ $email | quote }}
-    name = {{ $name | quote }}
-    hostname = {{ .chezmoi.hostname | quote }}
-    gtk_theme = {{ $gtk_theme | quote }}
-
-    # To prompt for values on a new machine:
-    # email = {{ promptString "email" $email | quote }}
-    # gtk_theme = {{ promptString "gtk_theme" $gtk_theme | quote }}
+    email = {{ promptStringOnce . "email" "Email address" "REDACTED" | quote }}
+    # Get your API key at https://openweathermap.org/api
+    weather_api_key = {{ promptStringOnce . "weather_api_key" "Weather API Key (Get one at https://openweathermap.org/api)" | quote }}
