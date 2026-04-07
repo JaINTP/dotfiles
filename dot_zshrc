@@ -85,9 +85,6 @@ eval "$(thefuck --alias)"
 # SSH Agent
 # =============================================================================
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
-if ! pgrep -u "$USER" ssh-agent >/dev/null; then
-  eval "$(ssh-agent -S)"
-fi
 
 # =============================================================================
 # Completion & Keybindings

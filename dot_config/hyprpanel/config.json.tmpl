@@ -58,7 +58,7 @@
         "clock"
       ]
     }
-    {{- else if eq .chezmoi.hostname "Galdheim" -}}
+    {{- else if eq .chezmoi.hostname "galdheim" -}}
     "DP-5": {
       "left": [
         "notifications",
@@ -174,9 +174,9 @@
   "menus.dashboard.directories.right.directory3.label": "󱂵  Home",
   "menus.dashboard.directories.right.directory2.label": "󰉏  Pictures",
   "theme.bar.margin_bottom": "0em",
-  "menus.dashboard.shortcuts.left.shortcut1.command": "brave-browser",
+  "menus.dashboard.shortcuts.left.shortcut1.command": "/home/jaintp/.local/share/applications/zen-jaintp.desktop",
   "menus.dashboard.shortcuts.left.shortcut1.icon": "󰇩",
-  "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Brave Browser",
+  "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Zen Browser",
   "menus.clock.weather.unit": "metric",
   "theme.bar.layer": "top",
   "theme.osd.scaling": 100,
@@ -286,6 +286,7 @@
   "theme.bar.location": "top",
   "bar.workspaces.showWsIcons": true,
   "bar.workspaces.workspaceIconMap": {
+    {{- if eq .chezmoi.hostname "ArchBox" -}}
     "1": {
       "icon": "󰄛",
       "color": "#FF0000"
@@ -306,6 +307,36 @@
       "icon": "󰓇",
       "color": "#1DB954"
     }
+    {{- else if eq .chezmoi.hostname "galdheim" -}}
+    "1": {
+      "icon": "󰖺",
+      "color": "#FF0000"
+    },
+    "2": {
+      "icon": "",
+      "color": "#9CDCFE"
+    },
+    "3": {
+      "icon": "󰖟",
+      "color": "#A2A9C4"
+    },
+    "4": {
+      "icon": "󰙯",
+      "color": "#7289DA"
+    },
+    "5": {
+      "icon": "",
+      "color": "#6C5DD3"
+    },
+    "-97": {
+      "icon": "",
+      "color": "#1DB954"
+    },
+    "-98": {
+      "icon": "󰓇",
+      "color": "#1DB954"
+    }
+    {{- end -}}
   },
   "theme.bar.buttons.workspaces.fontSize": "0.9em",
   "bar.workspaces.underlineType": "decoration",

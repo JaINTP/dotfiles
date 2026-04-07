@@ -20,26 +20,27 @@ $CALC               = $LAUNCHER vicinae://launch/calculator/history?toggle=true
 $POWER_MENU         = $LAUNCHER vicinae://launch/power/menu?toggle=true
 $CLIPBOARD_HISTORY  = $LAUNCHER vicinae://launch/clipboard/history?toggle=true
 $EMOJI_MENU         = $LAUNCHER vicinae://launch/core/search-emojis
-$RANDOM_WALL        = $SCRIPT_DIR/random-wallpaper.sh
-$CLIP_DEL           = $SCRIPT_DIR/clipboard-delete.sh
+$RANDOM_WALL        = random-wallpaper
 $FILE_MAN           = $LAUNCHER vicinae://launch/core/file-manager?toggle=true
 $RUNNER_MENU        = $LAUNCHER vicinae://launch/system/run?toggle=true
 $OFFSET_WINDOW      = $SCRIPT_DIR/offset-window.sh
 
 # Autostart programs
-exec-once = $LAUNCHER server
-exec-once = $BAR
-exec-once = $SPOTIFY
-exec-once = $DISCORD
-exec-once = pkill dunst
-exec-once = udiskie &
-exec-once = hypridle &
-exec-once = ianny &
-exec      = $AUTH_AGENT
-exec-once = easyeffects -gapplication-service
+# Essential components should start first
 exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec-once = dbus-update-activation-environment --systemd SSH_AUTH_SOCK
 exec-once = gnome-keyring-daemon --start --components=secrets,ssh
 
+# User applications
+exec-once = $LAUNCHER server
+exec-once = $BAR
+exec-once = awww-daemon
+exec-once = $SPOTIFY
+exec-once = $DISCORD
+exec-once = hypridle
+exec-once = ianny
+exec      = $AUTH_AGENT
+exec-once = easyeffects -gapplication-service
+
 # Launch terminal(s)
-exec-once = [workspace 2 silent] $LAUNCH_KITTY
+exec-once = [workspace 2 silent] $TERM --app-id="Scratchpad" --name="Scratchpad" --title="Scratchpad"
