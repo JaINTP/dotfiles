@@ -40,8 +40,6 @@ alias grep="rg"
 alias find="fd"
 alias cd="z"
 alias help="tldr"
-alias git="lazygit"
-alias docker="lazydocker"
 alias btw="fastfetch"
 
 # Navigation shortcuts
@@ -105,6 +103,3 @@ compinit
 
 # Enhanced completion style
 zstyle ':completion:*' menu select
-
-# OpenClaw Completion (uncomment when available)
-# source <(openclaw completion --shell zsh)

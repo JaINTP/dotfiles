@@ -131,11 +131,29 @@ print_success "System state synchronized."
 
 # --- 8. Set Shell ---
 print_step "Setting Zsh as the default shell..."
-if [ "$SHELL" != "$(which zsh)" ]; then
-    sudo chsh -s "$(which zsh)" "$USER" | tee -a "$LOG_FILE"
+
+# Find a valid zsh path that exists in /etc/shells
+ZSH_PATH=""
+for p in "/usr/bin/zsh" "/bin/zsh" "$(which zsh 2>/dev/null)"; do
+    if [ -n "$p" ] && grep -qxF "$p" /etc/shells; then
+        ZSH_PATH="$p"
+        break
+    fi
+done
+
+if [ -z "$ZSH_PATH" ]; then
+    print_error "Could not find a valid zsh path in /etc/shells."
+fi
+
+# Get current shell from /etc/passwd for the current user
+CURRENT_USER_SHELL=$(getent passwd "$USER" | cut -d: -f7)
+
+if [ "$CURRENT_USER_SHELL" != "$ZSH_PATH" ]; then
+    print_info "Changing shell from $CURRENT_USER_SHELL to $ZSH_PATH..."
+    sudo chsh -s "$ZSH_PATH" "$USER" | tee -a "$LOG_FILE"
     print_success "Default shell changed to Zsh."
 else
-    print_info "Zsh is already the default shell."
+    print_info "Zsh is already the default shell ($ZSH_PATH)."
 fi
 
 # --- Final Summary ---

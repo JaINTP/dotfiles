@@ -10,12 +10,24 @@ env = XCURSOR_SIZE,20
 env = QT_QPA_PLATFORMTHEME,qt6ct
 env = GTK_THEME,catppuccin-mocha-mauve-standard+default
 
-$BAR           = ~/.config/hyprpanel/executable_hyprpanel.sh
-$SPOTIFY       = spotify
-$DISCORD       = vesktop
-$ZENTWITCH     = env XDG_CURRENT_DESKTOP=zen-twitch zen-browser -P twitch
+$BAR                = ~/.config/hyprpanel/hyprpanel.sh
+$SPOTIFY            = spotify
+$DISCORD            = vesktop
+$ZENTWITCH          = env XDG_CURRENT_DESKTOP=zen-twitch zen-browser -P twitch
+$LAUNCHER           = /usr/bin/vicinae
+$TERM               = kitty
+$CALC               = $LAUNCHER vicinae://launch/calculator/history?toggle=true
+$POWER_MENU         = $LAUNCHER vicinae://launch/power/menu?toggle=true
+$CLIPBOARD_HISTORY  = $LAUNCHER vicinae://launch/clipboard/history?toggle=true
+$EMOJI_MENU         = $LAUNCHER vicinae://launch/core/search-emojis
+$RANDOM_WALL        = $SCRIPT_DIR/random-wallpaper.sh
+$CLIP_DEL           = $SCRIPT_DIR/clipboard-delete.sh
+$FILE_MAN           = $LAUNCHER vicinae://launch/core/file-manager?toggle=true
+$RUNNER_MENU        = $LAUNCHER vicinae://launch/system/run?toggle=true
+$OFFSET_WINDOW      = $SCRIPT_DIR/offset-window.sh
 
 # Autostart programs
+exec-once = $LAUNCHER server
 exec-once = $BAR
 exec-once = $SPOTIFY
 exec-once = $DISCORD
