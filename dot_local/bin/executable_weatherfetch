@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+## Author: JaINTP (https://github.com/jaintp)
+
+set -euo pipefail
+
+# Guard block: check usage
+if [[ $# -eq 0 ]]; then
+    echo "Usage: $(basename "$0") {location|weather|all}" >&2
+    exit 1
+fi
+
+action="$1"
+
+get_weather_and_location() {
+    local cache_file="$HOME/.cache/weather_cache.txt"
+    local expiry_time=3600 # 1 hour
+
+    mkdir -p "$(dirname "$cache_file")"
+
+    # Check cache validity
+    if [[ -s "$cache_file" ]]; then
+        local last_modified
+        last_modified=$(stat -c %Y "$cache_file")
+        local current_date
+        current_date=$(date +%s)
+        local time_diff=$((current_date - last_modified))
+
+        if (( time_diff < expiry_time )); then
+            cat "$cache_file"
+            return
+        fi
+    fi
+
+    # Cache miss or expired: fetch new data
+    local new_data
+    # Directly call curl rather than using eval (fixes security loophole)
+    if ! new_data=$(curl -s "https://wttr.in/?format=%l|%t|%C|%c"); then
+        # Fail gracefully if curl fails
+        new_data="Unknown|??|Unknown|?"
+    fi
+    
+    echo "$new_data" > "$cache_file"
+    echo "$new_data"
+}
+
+weather_data=$(get_weather_and_location)
+
+# Split data into components using | as delimiter
+IFS='|' read -r location temp conditions icon <<< "$weather_data"
+
+# Trim function using bash built-ins (avoids spawning `xargs` processes)
+trim() {
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"   
+    echo -n "$var"
+}
+
+loc=$(trim "$location")
+t_temp=$(trim "$temp")
+cond=$(trim "$conditions")
+icn=$(trim "$icon")
+
+case "$action" in
+    location)
+        echo "$loc"
+        ;;
+    weather)
+        echo "$t_temp - $cond $icn"
+        ;;
+    all)
+        echo "$loc - $t_temp - $cond $icn"
+        ;;
+    *)
+        echo "Usage: $(basename "$0") {location|weather|all}" >&2
+        exit 1
+        ;;
+esac

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+## Author: JaINTP (https://github.com/jaintp)
+
+set -euo pipefail
+
+wallpaper_dir="$HOME/Pictures/Wallpapers"
+current_wallpaper="$HOME/.config/background"
+
+# Guard block: Verify directory
+if [[ ! -d "$wallpaper_dir" ]]; then
+    echo "Error: Wallpaper directory does not exist: $wallpaper_dir" >&2
+    exit 1
+fi
+
+# Gather wallpapers into an array safely, handling spaces in names
+mapfile -t wallpapers < <(find "$wallpaper_dir" -maxdepth 1 -type f)
+
+# Guard block: Verify items exist
+if [[ ${#wallpapers[@]} -eq 0 ]]; then
+    echo "Error: No wallpapers found in $wallpaper_dir" >&2
+    exit 1
+fi
+
+# Pick a random wallpaper directly utilizing Bash's RANDOM system
+selected_wallpaper="${wallpapers[RANDOM % ${#wallpapers[@]}]}"
+
+# Ensure cleanly copied
+cp -f "$selected_wallpaper" "$current_wallpaper"
+
+echo "Wallpaper set to: $selected_wallpaper"
+echo "Copied to: $current_wallpaper"
+
+# Dispatch daemon
+awww img "$current_wallpaper" --transition-type fade --transition-step 2 --transition-fps 30

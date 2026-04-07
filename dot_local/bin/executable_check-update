@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Quietly poll yay for updates and reliably pipe to wc.
+# Note: we disable pipefail/set -e here since yay can return a non-zero 
+# exit code if there are simply no updates or network is down.
+update_count=$(yay -Qu 2>/dev/null | wc -l)
+
+if (( update_count == 0 )); then
+    echo ""
+else
+    echo "  $update_count"
+fi

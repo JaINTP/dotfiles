@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# hyprland-wrapper
+# A utility tool for launching programs within an active Hyprland session from an
+# external environment (e.g., a TTY or an SSH session). 
+#
+# Background:
+# When launching GUI applications from outside the compositor's session, standard
+# Wayland/XDG environment variables are missing. By using `hyprctl dispatch exec`,
+# we instruct the compositor to spawn the process directly, ensuring the application
+# properly inherits the compositor's full environment rather than the restricted
+# TTY/SSH environment.
+
+## Author: JaINTP (https://github.com/jaintp)
+
+# Guard: Ensure arguments are provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $(basename "$0") <command> [args...]"
+    echo ""
+    echo "Description:"
+    echo "  Executes the given command using hyprctl inside the active Hyprland instance."
+    echo "  Ideal for injecting GUI applications locally when logged in via TTY or SSH."
+    echo ""
+    echo "Example:"
+    echo "  $(basename "$0") kitty --class remote-launched"
+    exit 1
+fi
+
+# `hyprctl` requires the instance signature to locate the IPC socket in `/tmp/hypr/`.
+# Only fetch the signature if it isn't already established in the current environment.
+if [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    # Locate the active instance ID. If multiple exist, grab the first one.
+    INSTANCE_ID=$(hyprctl instances | rg "^instance " | awk '{print $2}' | tr -d ':' | head -n 1)
+    
+    # Guard: Fail if no instance could be located
+    if [ -z "$INSTANCE_ID" ]; then
+        echo "Error: No active Hyprland instance found." >&2
+        echo "Please ensure Hyprland is currently running." >&2
+        exit 1
+    fi
+    
+    export HYPRLAND_INSTANCE_SIGNATURE="$INSTANCE_ID"
+fi
+
+# Dispatch the command to the compositor.
+# We use `exec` to safely replace the current shell process with hyprctl,
+# cleanly forwarding all arguments to the dispatch command.
+exec hyprctl dispatch exec -- "$@"

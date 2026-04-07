@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+## Author: JaINTP (https://github.com/jaintp)
+
+set -euo pipefail
+
+# Guard block: Ensure at least one argument and it is valid
+if [[ $# -eq 0 ]]; then
+    echo "Usage: $(basename "$0") [up/down] [amount]" >&2
+    exit 1
+fi
+
+action="$1"
+if [[ "$action" != "up" && "$action" != "down" ]]; then
+    echo "Usage: $(basename "$0") [up/down] [amount]" >&2
+    exit 1
+fi
+
+# Default amount to 1 if not provided
+amount="${2:-1}"
+
+# Guard block: Strict integer check
+if ! [[ "$amount" =~ ^[0-9]+$ ]]; then
+    echo "Error: Amount must be a positive integer." >&2
+    exit 1
+fi
+
+# Execute corresponding brightnessctl action
+if [[ "$action" == "up" ]]; then
+    brightnessctl set +"${amount}%" >/dev/null
+else
+    brightnessctl set "${amount}%-" >/dev/null
+fi
+
+# Calculate and correctly format new brightness
+current_brightness=$(brightnessctl get)
+max_brightness=$(brightnessctl max)
+
+# Guard against zero max_brightness edge cases
+if (( max_brightness == 0 )); then
+    echo "Error: Maximum brightness reported as 0." >&2
+    exit 1
+fi
+
+percentage=$(( current_brightness * 100 / max_brightness ))
+echo "Brightness: ${percentage}%"
