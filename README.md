@@ -55,8 +55,28 @@ My workflow is centered around modern, fast tools:
 * **Python**: Managed exclusively via `uv`.
 * **Rust**: System-wide `rust` and `cargo` for building performance-critical tools.
 * **Node.js**: Global packages managed with `pnpm` and `yarn`.
-* **Editor**: [**Antigravity**](https://github.com/antigravity-editor/antigravity) (fork of VS Code) with custom snippets and a curated extension list.
-* **Security**: Integrated tools like `subfinder`, `amass`, `nuclei`, `ghidra`, and `jadx`.
+*   **Editor**: [**Antigravity**](https://github.com/antigravity-editor/antigravity) (VS Code fork) and [**Fresh**](https://github.com/fresh-editor/fresh) (fast, native editor) for high-performance coding.
+*   **Security**: Integrated tools like `subfinder`, `nmap`, `sqlmap`, `ghidra`, and `jadx`.
+
+---
+
+## Hardware & System
+
+*   **Graphics**: NVIDIA handled via `nvidia-open-dkms` with `nvidia-container-toolkit` for Docker GPU passthrough.
+*   **CPU**: Intel-specific optimizations with `intel-ucode`.
+*   **Audio**: Pipewire/Wireplumber with `pavucontrol` and `alsa-utils`.
+*   **Power**: Managed by `power-profiles-daemon`.
+*   **Maintenance**: Automated mirror updates via `reflector` and snapshot management with `snapper`.
+
+---
+
+## Media & Productivity
+
+*   **PDF/Docs**: **Okular** for rich document viewing.
+*   **Browsers**: **Zen Browser** (primary) and **Google Chrome** (secondary/testing).
+*   **Video**: **VLC** and **OBS Studio** for playback and recording.
+*   **Audio**: **Spotify** and `playerctl` integration for bar widgets.
+
 
 ---
 
