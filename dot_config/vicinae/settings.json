@@ -11,8 +11,27 @@
 {
    "$schema": "https://vicinae.com/schemas/config.json",
    "theme": {
+      "light": {
+         "name": "catppuccin-mocha"
+      },
       "dark": {
          "name": "catppuccin-mocha"
+      }
+   },
+   "favorites": [
+      "@JaINTP/vscrot:scrot",
+      "clipboard:history"
+   ],
+   "providers": {
+      "@nikbpetrov/store.vicinae.it-tools": {
+         "preferences": {
+            "base-url": "http://localhost:8090"
+         }
+      },
+      "@sovereign/awww-switcher": {
+         "preferences": {
+            "wallpaperPath": "/home/jaintp/Pictures/Wallpapers/"
+         }
       }
    }
 }

@@ -3,10 +3,8 @@
 # Quietly poll yay for updates and reliably pipe to wc.
 # Note: we disable pipefail/set -e here since yay can return a non-zero 
 # exit code if there are simply no updates or network is down.
-update_count=$(yay -Qu 2>/dev/null | wc -l)
+repo_count=$(yay -Qu --repo 2>/dev/null | wc -l)
+aur_count=$(yay -Qua 2>/dev/null | wc -l)
+update_count=$((repo_count + aur_count))
 
-if (( update_count == 0 )); then
-    echo ""
-else
-    echo "  $update_count"
-fi
+printf '{"repo":%d,"aur":%d,"total":%d}\n' "$repo_count" "$aur_count" "$update_count"

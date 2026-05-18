@@ -18,10 +18,14 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# SwiftEnv
 export SWIFTENV_ROOT="$HOME/.swiftenv"
-export PATH="$SWIFTENV_ROOT/bin:$PATH"
+export CARGO_HOME="$HOME/.cargo/"
+export PATH="$SWIFTENV_ROOT/bin::$CARGO_HOME/bin$PATH"
+export XDG_MENU_PREFIX="arch-"
 eval "$(swiftenv init -)"
+eval "$(rbenv init -)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 
 # =============================================================================
 # Oh My Zsh
@@ -45,6 +49,7 @@ alias btw="fastfetch"
 # Navigation shortcuts
 alias ..="cd .."
 alias rpi='ssh 192.168.0.199'
+alias update-artifacts='ssh deploy@134.199.145.80 "cd /opt/server/artifactsmmo && ./vps-deploy.sh"'
 
 # =============================================================================
 # Interactive Tools - Functions & Workflow Aliases

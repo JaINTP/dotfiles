@@ -36,30 +36,7 @@
   "theme.notification.border_radius": "1.2em",
   "theme.bar.outer_spacing": "0.1em",
   "bar.layouts": {
-    {{- if eq .chezmoi.hostname "ArchBox" -}}
-    "eDP-1": {
-      "left": [
-        "dashboard",
-        "updates",
-        "weather",
-        "notifications",
-        "media",
-        "windowtitle"
-      ],
-      "middle": [
-        "workspaces"
-      ],
-      "right": [
-        "volume",
-        "network",
-        "bluetooth",
-        "battery",
-        "systray",
-        "clock"
-      ]
-    }
-    {{- else if eq .chezmoi.hostname "galdheim" -}}
-    "DP-5": {
+    "DP-3": {
       "left": [
         "notifications",
         "workspaces"
@@ -74,7 +51,7 @@
         "volume"
       ]
     },
-    "HDMI-A-5": {
+    "HDMI-A-1": {
       "left": [
         "notifications",
         "workspaces",
@@ -90,7 +67,6 @@
         "dashboard"
       ]
     }
-    {{- end -}}
   },
   "bar.windowtitle.title_map": [
     [
@@ -286,28 +262,6 @@
   "theme.bar.location": "top",
   "bar.workspaces.showWsIcons": true,
   "bar.workspaces.workspaceIconMap": {
-    {{- if eq .chezmoi.hostname "ArchBox" -}}
-    "1": {
-      "icon": "󰄛",
-      "color": "#FF0000"
-    },
-    "2": {
-      "icon": "󰖟",
-      "color": "#A2A9C4"
-    },
-    "3": {
-      "icon": "",
-      "color": "#9CDCFE"
-    },
-    "4": {
-      "icon": "󰙯",
-      "color": "#7289DA"
-    },
-    "5": {
-      "icon": "󰓇",
-      "color": "#1DB954"
-    }
-    {{- else if eq .chezmoi.hostname "galdheim" -}}
     "1": {
       "icon": "󰖺",
       "color": "#FF0000"
@@ -336,7 +290,6 @@
       "icon": "󰓇",
       "color": "#1DB954"
     }
-    {{- end -}}
   },
   "theme.bar.buttons.workspaces.fontSize": "0.9em",
   "bar.workspaces.underlineType": "decoration",
@@ -424,9 +377,9 @@
       "color": "#b4befe"
     }
   },
-  "theme.bar.menus.menu.clock.weather.api": "{{ .weather_api_key }}",
+  "theme.bar.menus.menu.clock.weather.api": "",
   "hyprpanel.restartAgs": true,
-  "menus.clock.weather.key": "{{ .weather_api_key }}",
+  "menus.clock.weather.key": "",
   "bar.customModules.storage.paths": [
     "/"
   ]

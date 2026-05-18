@@ -28,10 +28,8 @@ Re-run `chezmoi apply` any time to sync local changes.
 | Path | Purpose |
 |------|---------|
 | `dot_config/rebos/`          | Nix-like generation manager for Arch/AUR packages (`gen.toml`, `managers/`) |
-| `dot_config/hypr/`           | Core Hyprland configs (`hyprland.conf`, `execs.conf`, `keybinds.conf`, `rules.conf`, `mocha.conf`) |
+| `dot_config/hypr/`           | Core Hyprland 0.55.* Lua configs (`hyprland.lua`, `execs.lua`, `keybinds.lua`, `rules.lua`, `settings.lua`, `vars.lua`) |
 | `dot_config/hyprpanel/`      | Bar & dashboard JSON (`config.json`, `theme.json`) + launcher `hyprpanel.sh` |
-| `dot_config/hypridle/`       | Idle-daemon settings |
-| `dot_config/hyprlock/`       | GPU lock-screen config |
 | `dot_config/btop/`           | `btop.conf` + Catppuccin theme file |
 | `dot_config/kitty/`          | Terminal theming & scratch-pad configs |
 | `dot_config/fresh/`          | Fresh editor configuration |
@@ -44,7 +42,7 @@ Re-run `chezmoi apply` any time to sync local changes.
 ## Rebos (Nix-like Package Management)
 
 I use [**rebos**](https://gitlab.com/Oglo12/rebos) to manage my Arch Linux and AUR packages declaratively. 
-* **`gen.toml`** tracks 80+ explicitly installed applications, including the Hyprland stack, dev tools (Python, Go, Node, Rust), and security utilities.
+* **`gen.toml`** tracks 80+ explicitly installed applications, including the Hyprland stack (v0.55+), dev tools (Python, Go, Node, Rust), and security utilities.
 * **`managers/system.toml`** is configured to use `yay` for seamless official/AUR management.
 
 ---
@@ -80,12 +78,14 @@ My workflow is centered around modern, fast tools:
 
 ---
 
-## Hyprland stack
+## Hyprland stack (Lua)
 
-* **`hyprland.conf`** sources modular files; **`execs.conf`** sets env-vars (cursor, GTK/Qt themes) and autostarts `hypridle`, `swaync`, `hyprpanel`, `wl-paste`, etc.  
-* **`keybinds.conf`** – Super-driven shortcuts for launching apps, rofi menus, tiling helpers like `window_offset_center`.  
-* **`rules.conf`** – workspace pinning, float rules, opacity tweaks, layer blur/dim.  
-* **`mocha.conf`** – Catppuccin Mocha colour variables reused across the stack.  
+* **`hyprland.lua`** sources modular files; **`execs.lua`** sets env-vars (cursor, GTK/Qt themes) and autostarts services like `wayle panel`, `swaync`, `wl-paste`, etc.  
+* **`keybinds.lua`** – Super-driven shortcuts for launching apps, vicinae menus, tiling helpers.  
+* **`rules.lua`** – workspace pinning, float rules, opacity tweaks, layer blur/dim.  
+* **`vars.lua`** – Single source of truth for variables (monitors, apps, paths).
+* **`settings.lua`** – Core configuration (animations, decoration, input, monitors).
+* **`colors.lua`** – Catppuccin Mocha colour variables reused across the stack.  
 
 ### Hyprpanel
 
