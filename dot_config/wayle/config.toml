@@ -1,0 +1,10 @@
+[[bar.layout]]
+monitor = "*"
+left = ["custom-check-update"]
+
+[[modules.custom]]
+id = "check-update"
+command = "~/.local/bin/check-update"
+interval-ms = 15000
+icon-name = "ld-arrow-down-symbolic"
+format = "{{ output }}  "

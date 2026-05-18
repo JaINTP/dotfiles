@@ -1,0 +1,164 @@
+[bar]
+scale = 0.75
+bg = "transparent"
+background-opacity = 0
+button-variant = "basic"
+button-rounding = "full"
+button-gap = 1.100000023841858
+
+[[bar.layout]]
+monitor = "DP-3"
+show = true
+left = [
+    "notifications",
+    "hyprland-workspaces",
+]
+center = [
+    "clock",
+    "media",
+    "window-title",
+]
+right = [
+    "cpu",
+    "ram",
+    "storage",
+    "custom-check-update",
+    "weather",
+    "volume",
+]
+
+[[bar.layout]]
+monitor = "HDMI-A-1"
+show = true
+left = [
+    "notifications",
+    "hyprland-workspaces",
+    "cava",
+]
+center = ["clock"]
+right = [
+    "netstat",
+    "network",
+    "bluetooth",
+    "systray",
+    "dashboard",
+]
+
+[styling]
+scale = 1.059999942779541
+rounding = "none"
+theme-provider = "wallust"
+theming-monitor = "DP-3"
+wallust-backend = "full"
+
+[styling.palette]
+bg = "#11111b"
+surface = "#181825"
+elevated = "#1e1e2e"
+fg = "#cdd6f4"
+fg-muted = "#bac2de"
+primary = "#b4befe"
+red = "#f38ba8"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+blue = "#74c7ec"
+
+[modules.bluetooth]
+label-show = false
+
+[modules.cava]
+bars = 25
+stereo = true
+monstercat = 1.0999999999999999
+style = "peaks"
+
+[modules.clock]
+format = "%d/%m/%y - %H:%M:%S"
+dropdown-show-seconds = true
+
+[modules.hyprland-workspaces]
+min-workspace-count = 5
+display-mode = "icon"
+label-use-name = true
+app-icons-dedupe = false
+
+[modules.hyprland-workspaces.workspace-map.2]
+icon = "tb-brand-vscode-symbolic"
+color = "#007ACC"
+
+[modules.hyprland-workspaces.workspace-map.3]
+icon = "si-zenbrowser"
+color = "#3CC8FF"
+
+[modules.hyprland-workspaces.workspace-map.1]
+icon = "si-steam"
+color = "#107C10"
+
+[modules.hyprland-workspaces.workspace-map.5]
+icon = "si-twitch"
+color = "#6C5DD3"
+
+[modules.hyprland-workspaces.workspace-map.4]
+icon = "si-discord-symbolic"
+color = "#7289DA"
+
+[modules.hyprland-workspaces.workspace-map.-98]
+icon = "si-spotify"
+color = "#1DB954"
+
+[modules.hyprland-workspaces.workspace-map.-97]
+icon = "ld-terminal-symbolic"
+color = "#FFB000"
+
+[modules.network]
+label-show = false
+
+[modules.netstat]
+label-show = false
+
+[modules.notification]
+popup-position = "top-center"
+popup-urgency-bar = "normal"
+
+[modules.weather]
+location = "Sydney"
+
+[[modules.custom]]
+id = "check-update"
+command = "~/.local/bin/check-update"
+mode = "poll"
+interval-ms = 1800000
+restart-policy = "never"
+restart-interval-ms = 1800000
+format = "{{ total }}  "
+tooltip-format = """
+AUR: {{aur}}
+Repo: {{repo}}
+Total: {{total}}"""
+hide-if-empty = false
+icon-name = "ld-arrow-down-symbolic"
+icon-show = true
+icon-color = "auto"
+icon-bg-color = "auto"
+label-show = true
+label-color = "auto"
+label-max-length = 0
+button-bg-color = "bg-surface-elevated"
+border-show = false
+border-color = "auto"
+left-click = ""
+right-click = ""
+middle-click = ""
+scroll-up = ""
+scroll-down = ""
+on-action = "~/.local/bin/check-update"
+
+[[wallpaper.monitors]]
+name = "DP-3"
+fit-mode = "fill"
+wallpaper = "/home/jaintp/Pictures/Wallpapers/dki1n7up9qsa1.png"
+
+[[wallpaper.monitors]]
+name = "HDMI-A-1"
+fit-mode = "fill"
+wallpaper = "/home/jaintp/Pictures/Wallpapers/dki1n7up9qsa1.png"

@@ -29,7 +29,7 @@ Re-run `chezmoi apply` any time to sync local changes.
 |------|---------|
 | `dot_config/rebos/`          | Nix-like generation manager for Arch/AUR packages (`gen.toml`, `managers/`) |
 | `dot_config/hypr/`           | Core Hyprland 0.55.* Lua configs (`hyprland.lua`, `execs.lua`, `keybinds.lua`, `rules.lua`, `settings.lua`, `vars.lua`) |
-| `dot_config/hyprpanel/`      | Bar & dashboard JSON (`config.json`, `theme.json`) + launcher `hyprpanel.sh` |
+| `dot_config/wayle/`          | Wayle bar configuration (`config.toml`, `themes/`, `tombi.toml`) |
 | `dot_config/btop/`           | `btop.conf` + Catppuccin theme file |
 | `dot_config/kitty/`          | Terminal theming & scratch-pad configs |
 | `dot_config/fresh/`          | Fresh editor configuration |
@@ -127,7 +127,7 @@ Plugins: `git`, `fzf`, `z`, plus Wayland-specific env-vars and aliases in `dot_z
 | Script | What it does |
 |--------|--------------|
 | `brightness`          | Adjust back-light via `brightnessctl`. |
-| `check-update`        | Returns yay update count (used by Hyprpanel “updates” module). |
+| `check-update`        | Returns yay update count (used by Wayle “updates” module). |
 | `grimblast`           | Screenshot helper for Hyprland. |
 | `playerctl-helper`    | Caches album art + exposes rich metadata for bar widgets. |
 | `random-wallpapers`   | Picks a random wallpaper and sets it via **swww**. |
@@ -159,4 +159,6 @@ Preview safely with `chezmoi diff`.
 * **Gramblast Script** Author: [Misterio](https://github.com/misterio77)
 
 Happy dot-fiddling!  
+– Jai
+!  
 – Jai
