@@ -87,17 +87,16 @@ My workflow is centered around modern, fast tools:
 * **`settings.lua`** – Core configuration (animations, decoration, input, monitors).
 * **`colors.lua`** – Catppuccin Mocha colour variables reused across the stack.  
 
-### Hyprpanel
+---
 
-Hyprpanel is an AGS-based bar written for Hyprland.  
-Key bits in `config.json` / `theme.json` include:
+## Wayle (Bar)
 
-* **Docking**: `theme.bar.floating = false` (bar is pinned).  
-* **Workspaces**: five slots with occupied/empty icons.  
-* **Modules**: update checker (24-min cadence), weather block, storage graphs.  
-* **Typography**: JetBrainsMono Nerd Font at `0.9rem`; radius & padding tuned under `theme.bar.buttons.*`.
+Wayle is a lightweight, high-performance bar for Wayland.
+Key bits in `config.toml`:
 
-`hyprpanel.sh` safely restarts the bar after config edits.
+* **Layout**: Flexible module placement (left/middle/right).
+* **Modules**: Custom script integration (e.g., `check-update`), system monitors, and workspace indicators.
+* **Theming**: Configurable via `themes/` and `tombi.toml`.
 
 ---
 
@@ -153,7 +152,7 @@ Preview safely with `chezmoi diff`.
 ## Credits
 
 * [**chezmoi**](https://www.chezmoi.io/) - dot-file management powerhouse  
-* [**Hyprland**](https://github.com/hyprwm/Hyprland/) + **[hypridle](https://github.com/hyprwm/hypridle) / [hyprlock](https://github.com/hyprwm/hyprlock) / [hyprpanel](https://hyprpanel.com/)** - slick Wayland desktop  
+* [**Hyprland**](https://github.com/hyprwm/Hyprland/) + **[hypridle](https://github.com/hyprwm/hypridle) / [hyprlock](https://github.com/hyprwm/hyprlock) / [Wayle](https://github.com/wayle-org/wayle)** - slick Wayland desktop  
 * [**kitty**](https://sw.kovidgoyal.net/kitty), [**btop**](https://github.com/aristocratos/btop), [**Oh My Zsh**](https://ohmyz.sh/) - daily-driver tools  
 * [**Catppuccin**](https://catppuccin.com/) - cohesive theming
 * **Gramblast Script** Author: [Misterio](https://github.com/misterio77)
