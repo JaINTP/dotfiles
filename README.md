@@ -160,5 +160,3 @@ Preview safely with `chezmoi diff`.
 
 Happy dot-fiddling!  
 – Jai
-!  
-– Jai
